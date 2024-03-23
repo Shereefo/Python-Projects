@@ -1,0 +1,158 @@
+import random
+import footballers
+
+soccer_ball_art = r'''
+  o__        o__     |   |\
+ /|          /\      |   |X\
+ / > o        <\     |   |XX\
+'''
+
+
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+
+end_of_game = False
+
+word_list = footballers.last_names  # Use the last names from the footballers module
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+lives = 6
+
+print("Welcome to Hangman - Football Edition!")
+print(soccer_ball_art)
+print(f"The chosen football player's last name has {word_length} letters.")
+print("Try to guess the player by guessing letters one at a time.")
+
+display = ['_' for _ in range(word_length)]  # Initialize display with underscores
+
+while not end_of_game:
+    guess = input("Guess a letter: ").lower()
+    letter_in_word = False
+    for position in range(len(chosen_word)):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+            letter_in_word = True
+
+    if not letter_in_word:
+        lives -= 1
+        print(stages[lives])
+        if lives == 0:
+            end_of_game = True
+            print(f"You lose. The correct answer was {chosen_word}.")
+    else:
+        # Print the updated display with the correct letters and underscores
+        display_with_letters = [letter if letter == guess or display[position] != '_' else '_' for position, letter in enumerate(chosen_word)]
+        print(' '.join(display_with_letters))
+
+    if "_" not in display:
+        end_of_game = True
+        print("Congratulations! You guessed the correct footballer!.")
+
+#Footballers module: 
+#last_names = [
+    "messi",
+    "ronaldo",
+    "neymar",
+    "mbappé",
+    "de bruyne",
+    "lewandowski",
+    "salah",
+    "haaland",
+    "kane",
+    "modric",
+    "benzema",
+    "ramos",
+    "kanté",
+    "van dijk",
+    "fernandes",
+    "kimmich",
+    "sterling",
+    "oblak",
+    "mané",
+    "lukaku",
+    "kroos",
+    "mahrez",
+    "becker",
+    "alexander-arnold",
+    "robertson",
+    "casemiro",
+    "sancho",
+    "müller",
+    "félix",
+    "rashford",
+    "lukaku",
+    "de jong",
+    "son",
+    "dybala",
+    "bonucci",
+    "chiellini",
+    "de ligt",
+    "donnarumma",
+    "courtois",
+    "mount",
+    "havertz",
+    "ederson",
+    "bentancur",
+    "rashford",
+    "grealish",
+    "bellingham",
+    "torres",
+    "koundé",
+    "hakimi",
+    "tielemans"
+]

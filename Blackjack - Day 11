@@ -1,0 +1,236 @@
+import random
+
+def play_game():
+  """Main function to play Blackjack."""
+  global user_cards
+  global computer_cards
+
+play_game()
+  
+print("""_     _            _    _            _    
+| |   | |          | |  (_)          | |   
+| |__ | | __ _  ___| | ___  __ _  ___| | __
+| '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+| |_) | | (_| | (__|   <| | (_| | (__|   < 
+|_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\ 
+         | /.\ ||A ^  | _____
+         |(_._)|| / \ ||A _  | _____
+         |  |  || \ / || ( ) ||A_ _ |
+         |____V||  .  ||(_'_)||( v )|
+                |____V||  |  || \ / |
+                       |____V||  .  |
+                              |____V|
+                                      
+                                                     """)
+
+
+
+
+
+CARDS = [
+    (11, '''
+ -------
+|K      |
+|       |
+|       |
+|       |
+|      K|
+ ------- '''), 
+    (10, '''
+ -------
+|Q      |
+|       |
+|       |
+|       |
+|      Q|
+ ------- '''), 
+    (10, ''' 
+ -------
+|J      |
+|       |
+|       |
+|       |
+|      J|
+ ------- '''), 
+    (10, '''
+ -------
+|10     |
+|       |
+|       |
+|       |
+|     10|
+ ------- '''), 
+    (9, '''
+ -------
+|9      |
+|       |
+|       |
+|       |
+|      9|
+ ------- '''), 
+    (8, '''
+ -------
+|8      |
+|       |
+|       |
+|       |
+|      8|
+ ------- '''), 
+    (7, '''
+ -------
+|7      |
+|       |
+|       |
+|       |
+|      7|
+ ------- '''), 
+    (6, '''
+ -------
+|6      |
+|       |
+|       |
+|       |
+|      6|
+ ------- '''), 
+    (5, '''
+ -------
+|5      |
+|       |
+|       |
+|       |
+|      5|
+ ------- '''), 
+    (4, '''
+ -------
+|4      |
+|       |
+|       |
+|       |
+|      4|
+ ------- '''), 
+    (3, '''
+ -------
+|3      |
+|       |
+|       |
+|       |
+|      3|
+ ------- '''), 
+    (2, '''
+ -------
+|2      |
+|       |
+|       |
+|       |
+|      2|
+ ------- '''), 
+    (11, ''' 
+ -------
+|A      |
+|       |
+|       |
+|       |
+|      A|
+ ------- ''')
+]
+
+BLANKCARD = '''
+ -------
+|XXXXXXX|
+|XXXXXXX|
+|XXXXXXX|
+|XXXXXXX|
+|XXXXXXX|
+ ------- '''
+
+def deal_card():
+    """Deal a random card from the deck."""
+    card = random.choice(CARDS)
+    return card[1], card[0]
+
+def calculate_score(cards):
+    """Calculate the total score from a list of cards."""
+    score = sum(card[1] for card in cards)
+    if score == 21 and len(cards) == 2:
+        return 0
+
+    if 11 in cards and score > 21:
+        score -= 10
+    
+    return score
+
+def compare(user_score, computer_score):
+    """Compare user and computer scores and determine the winner."""
+    if user_score == computer_score:
+        return "Draw"
+    elif computer_score == 0:
+        return "Lose, opponent has Blackjack"
+    elif user_score == 0:
+        return "Win with a Blackjack"
+    elif user_score > 21:
+        return "You went over. You lose."
+    elif computer_score > 21:
+        return "Opponent went over. You win."
+    elif user_score > computer_score:
+        return "You win"
+    else:
+        return "You lose"
+
+def play_game():
+    """Main function to play Blackjack."""
+    global user_cards
+    global computer_cards
+
+    user_cards = []
+    computer_cards = []
+    is_game_over = False
+
+    for _ in range(2):
+        card = deal_card()
+        user_cards.append(card)
+        card = deal_card()
+        computer_cards.append(card)
+
+    while not is_game_over:
+        user_score = calculate_score(user_cards)
+        computer_score = calculate_score(computer_cards)
+        
+        print(f"  Your cards:")
+        for card in user_cards:
+            print(card[0])
+        print(f"  Your current score: {user_score}")
+        print(f" Computer's first card:")
+        print(computer_cards[0][0]) 
+
+        if user_score == 0 or computer_score == 0 or user_score > 21:
+            is_game_over = True
+        else:
+            user_should_deal = input ("Type 'y' to get another card, type 'n' to pass: ")
+            if user_should_deal == "y":
+                card = deal_card()
+                user_cards.append(card)
+            else:
+                is_game_over = True
+
+    while computer_score != 0 and computer_score < 17:
+        card = deal_card()
+        computer_cards.append(card)
+        computer_score = calculate_score(computer_cards)
+
+    print(f"    Your final hand:")
+    for card in user_cards:
+        print(card[0])
+    print(f"   Your final score: {user_score}")
+    print(f"   Computer's final hand:")
+    for card in computer_cards:
+        print(card[0])
+    print(f"   Computer's final score: {computer_score}")
+    print(compare(user_score, computer_score))
+
+    play_again = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
+    if play_again == "y":
+        play_game()
+    else:
+        print("Thank you for playing")
+
+play_game()

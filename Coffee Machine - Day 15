@@ -1,0 +1,127 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 30,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 20,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 25,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 700,
+    "milk": 500,
+    "coffee": 400,
+}
+
+
+
+money_received = 0
+
+def generate_report(resources):
+    print("Current Resource Status:")
+    for resource, quantity in resources.items():
+        if resource != "money":
+            if resource in ["water", "milk"]:
+                print(f"{resource.capitalize()}: {quantity}ml")
+            else:
+                print(f"{resource.capitalize()}: {quantity}g")
+    print(f"Money: ${money_received:.2f}")
+def check_resources_sufficient(required_ingredients):
+    for ingredient, quantity in required_ingredients.items():
+        if resources[ingredient] < quantity:
+            print(f"Sorry, there is not enough {ingredient}.")
+            return False
+    return True
+
+def process_coins(cost):
+    global money_received
+    print("Please insert coins.")
+    quarters = int(input("How many quarters?: "))
+    dimes = int(input("How many dimes?: "))
+    nickels = int(input("How many nickels?: "))
+    pennies = int(input("How many pennies?: "))
+    total_inserted = quarters * 0.25 + dimes * 0.10 + nickels * 0.05 + pennies * 0.01
+    money_received += total_inserted
+    print(f"Total inserted: ${money_received:.2f}")
+    return money_received
+
+def refill_resources():
+    print("Please Wait...Refilling the coffee machine.")
+    for resource, quantity in resources.items():
+        if resource != "money":
+            resources[resource] = resources[resource]
+    print("Coffee machine resources have been successfully refilled")
+
+
+def dispense_drink(drink_name, drink_cost):
+    """Dispense the selected drink."""
+    required_ingredients = MENU[drink_name]["ingredients"]
+    for ingredient, quantity in required_ingredients.items():
+        resources[ingredient] -= quantity
+    global money_received
+    money_received -= drink_cost
+    print(f"Here is your tasty {drink_name}, enjoy!")
+    change = money_received - drink_cost
+    if change > 0:
+        print(f"Here is ${change:.2f} in change.")
+
+    generate_report(resources)
+
+
+
+print("""""
+ )  (
+     (   ) )
+      ) ( (
+ mrf_______)_
+ .-'---------|  
+( C|/\/\/\/\/|
+ '-./\/\/\/\/|
+   '_________'
+    '-------'  """)
+
+
+def serve_customer():
+    while True:
+        user_input = input("What would you like? espresso, latte, or cappuccino? ").lower()
+        if user_input == "off":
+            print("Turning off the coffee machine...")
+            break
+        elif user_input == "report":
+            generate_report(resources)
+        elif user_input == "refill":
+            refill_resources()
+        elif user_input in MENU:
+            required_ingredients = MENU[user_input]["ingredients"]
+            drink_cost = MENU[user_input]["cost"]
+            if check_resources_sufficient(required_ingredients):
+                print(f"The cost of {user_input} is ${drink_cost: .2f}")
+                total_inserted = process_coins(drink_cost)
+                if total_inserted >= drink_cost:
+                    dispense_drink(user_input, drink_cost)
+                else:
+                    print("Sorry, that's not enough money. Money refunded.")
+            else:
+                print("Sorry, there are not enough resources to make that drink.")
+        else:
+            print("Sorry, I don't understand your choice. Please try ordering again.")
+
+
+serve_customer()

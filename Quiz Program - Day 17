@@ -1,0 +1,134 @@
+from question_model import Question
+from data import question_data
+from quiz_brain import QuizBrain
+
+question_bank = []
+for question in question_data:
+    question_text = question["text"]
+    question_answer = question["answer"]
+    new_question = Question(question_text, question_answer)
+    question_bank.append(new_question)
+
+quiz = QuizBrain(question_bank)
+
+while quiz.still_has_questions():
+    quiz.next_question()
+
+print("You have completed the Quiz!")
+print(f"Your final score was: {quiz.score}/{quiz.question_number}")
+
+
+#question_model.py class
+
+class Question:
+    def __init__(self, q_text, q_answer):
+        self.text = q_text
+        self.answer = q_answer
+
+#quiz_brain.py class
+
+class QuizBrain:
+
+    def __init__(self, q_list):
+        self.question_number = 0
+        self.question_list = q_list
+        self.score = 0
+
+    def still_has_questions(self):
+        return self.question_number < len(self.question_list)
+
+    def next_question(self):
+        current_question = self.question_list[self.question_number]
+        self.question_number += 1
+        user_answer =  input(f"Q.{self.question_number}: {current_question.text} (True/False): ")
+        self.check_answer(user_answer, current_question.answer)
+
+    def check_answer(self, user_answer, correct_answer):
+      if user_answer.lower() == correct_answer.lower():
+        self.score += 1
+        print("You got it right!")
+      else:
+        print("That's incorrect.")
+      print(f"The correct answer was: {correct_answer}.")
+      print(f"Your current score is: {self.score}/{self.question_number}")
+      print("\n")
+
+
+Quiz Data 
+
+
+question_data = [
+    {"text": "A slug's blood is green.", "answer": "True"},
+    {"text": "The loudest animal is the African Elephant.", "answer": "False"},
+    {"text": "Approximately one quarter of human bones are in the feet.", "answer": "True"},
+    {"text": "The total surface area of a human lungs is the size of a football pitch.", "answer": "True"},
+    {"text": "In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to "
+             "eat.", "answer": "True"},
+    {"text": "In London, UK, if you happen to die in the House of Parliament, you are entitled to a state funeral.",
+     "answer": "False"},
+    {"text": "It is illegal to pee in the Ocean in Portugal.", "answer": "True"},
+    {"text": "You can lead a cow down stairs but not up stairs.", "answer": "False"},
+    {"text": "Google was originally called 'Backrub'.", "answer": "True"},
+    {"text": "Buzz Aldrin's mother's maiden name was 'Moon'.", "answer": "True"},
+    {"text": "No piece of square dry paper can be folded in half more than 7 times.", "answer": "False"},
+    {"text": "A few ounces of chocolate can to kill a small dog.", "answer": "True"},
+    {"text": "The world's largest desert is Antarctica.", "answer": "True"},
+    {"text": "The Great Wall of China is visible from space.", "answer": "False"},
+    {"text": "Bananas grow on trees.", "answer": "False"},
+    {"text": "The capital of Canada is Toronto.", "answer": "False"},
+    {"text": "The Great Wall of China is visible from space.", "answer": "False"},
+    {"text": "Cats sleep for an average of 20 hours per day.", "answer": "True"},
+    {"text": "The Earth has only one natural satellite.", "answer": "False"},
+    {"text": "The human body has four lungs.", "answer": "False"},
+    {"text": "The sun is a planet.", "answer": "False"},
+    {"text": "A group of swans is known as a 'gaggle'.", "answer": "False"},
+    {"text": "The Amazon River is the longest river in the world.", "answer": "False"},
+    {"text": "The fastest land animal is the cheetah.", "answer": "True"},
+    {"text": "Water covers approximately 71% of the Earth's surface.", "answer": "True"},
+    {"text": "An octopus has three hearts.", "answer": "True"},
+    {"text": "Albert Einstein failed mathematics in school.", "answer": "False"},
+    {"text": "Diamonds are made of carbon.", "answer": "True"},
+    {"text": "The smallest country in the world is Monaco.", "answer": "True"},
+    {"text": "The Statue of Liberty was a gift from France to the USA.", "answer": "True"},
+    {"text": "The currency of Japan is the yen.", "answer": "True"},
+    {"text": "The United States of America has 50 states.", "answer": "True"},
+    {"text": "The Sydney Opera House is located in Australia.", "answer": "True"},
+    {"text": "The human body has more than 500 bones.", "answer": "False"},
+    {"text": "The Eiffel Tower is located in London.", "answer": "False"},
+    {"text": "Mount Everest is the tallest mountain in the world.", "answer": "True"},
+    {"text": "Venus is the closest planet to the Sun.", "answer": "False"},
+    {"text": "A leap year has 366 days.", "answer": "True"},
+    {"text": "The Great Barrier Reef is located in the Caribbean Sea.", "answer": "False"},
+    {"text": "The longest river in the world is the Nile.", "answer": "True"},
+    {"text": "A 'jacuzzi' is a type of vegetable.", "answer": "False"},
+    {"text": "The human brain weighs about 3 pounds.", "answer": "True"},
+    {"text": "The coldest place on Earth is Antarctica.", "answer": "True"},
+    {"text": "The capital of France is Paris.", "answer": "True"},
+    {"text": "Rabbits are rodents.", "answer": "False"},
+    {"text": "The primary colors are red, blue, and green.", "answer": "False"},
+    {"text": "The speed of light is faster than the speed of sound.", "answer": "True"},
+    {"text": "An ostrich's eye is bigger than its brain.", "answer": "True"},
+    {"text": "The Earth is flat.", "answer": "False"},
+    {"text": "Cleopatra was the last pharaoh of Egypt.", "answer": "True"},
+    {"text": "A 'nimbus' is a type of cloud.", "answer": "True"},
+    {"text": "The shortest day of the year is known as the winter solstice.", "answer": "True"},
+    {"text": "A hexagon has six sides.", "answer": "True"},
+    {"text": "Polar bears are native to Antarctica.", "answer": "False"},
+    {"text": "The moon orbits the Earth.", "answer": "True"},
+    {"text": "The Amazon Rainforest produces 20% of the world's oxygen.", "answer": "True"},
+    {"text": "Honey is made by bees.", "answer": "True"},
+    {"text": "Jupiter is the largest planet in our solar system.", "answer": "True"},
+    {"text": "The fastest bird is the peregrine falcon.", "answer": "True"},
+    {"text": "A 'canine' is a type of bone in the human body.", "answer": "False"},
+    {"text": "The Statue of Liberty is located in Los Angeles.", "answer": "False"},
+    {"text": "The currency of Australia is the euro.", "answer": "False"},
+    {"text": "Copper is an element.", "answer": "True"},
+    {"text": "The human heart has four chambers.", "answer": "True"},
+    {"text": "The Mona Lisa was painted by Michelangelo.", "answer": "False"},
+    {"text": "The longest bone in the human body is the femur.", "answer": "True"},
+    {"text": "The capital of Russia is Moscow.", "answer": "True"},
+    {"text": "A rhinoceros's horn is made of bone.", "answer": "True"},
+    {"text": "The International Space Station orbits the moon.", "answer": "False"},
+    {"text": "The Great Pyramid of Giza is the only Wonder of the Ancient World that still exists.", "answer": "True"},
+    {"text": "The Atlantic Ocean is the largest ocean in the world.", "answer": "False"}]
+

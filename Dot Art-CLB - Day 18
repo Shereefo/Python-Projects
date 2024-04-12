@@ -1,0 +1,46 @@
+
+# import colorgram
+# rgb_colors = []
+# colors = colorgram.extract('drake.jpg', 30)
+# for color in colors:
+#     r = color.rgb.r
+#     g = color.rgb.g
+#     b = color.rgb.b
+#     new_color = (r, g, b)
+#     rgb_colors.append(new_color)
+
+# print(rgb_colors)
+
+# ^ How to extract the image from chosen painting to create a list from the extraction shown below in the code
+
+
+
+import turtle as turtle_module
+import random
+
+turtle_module.colormode(255)
+tim = turtle_module.Turtle()
+tim.speed("fastest")
+tim.penup()
+tim.hideturtle()
+color_list = [(126, 89, 60), (56, 38, 27), (188, 150, 110), (156, 59, 118), (56, 98, 150), (252, 246, 250), (173, 160, 44), (250, 253, 252), (118, 145, 182), (108, 199, 134), (42, 30, 36), (188, 130, 162), (49, 45, 111), (245, 247, 251), (183, 86, 151), (130, 34, 69), (232, 211, 82), (236, 210, 8), (91, 116, 175), (31, 32, 61), (74, 142, 169), (89, 54, 43), (173, 105, 90), (80, 112, 86), (27, 32, 28), (88, 72, 26), (86, 158, 103), (214, 177, 200), (222, 182, 165)]
+tim.setheading(225)
+tim.forward(300)
+tim.setheading(0)
+number_of_dots = 100
+
+for dot_count in range(1, number_of_dots + 1):
+    tim.dot(20, random.choice(color_list))
+    tim.forward(50)
+    if dot_count % 10 == 0:
+        tim.setheading(90)
+        tim.forward(50)
+        tim.setheading(180)
+        tim.forward(500)
+        tim.setheading(0)
+
+
+
+
+screen = turtle_module.Screen()
+screen.exitonclick()
